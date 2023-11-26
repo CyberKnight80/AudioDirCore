@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
@@ -347,6 +348,16 @@ namespace AudioDirCore
         #endregion
 
         #region Methods
+
+        public void Add(Audio obj)
+        {
+            this._list.Add(obj);
+        }
+
+        public void RemoveAt(int index)
+        {
+            this._list.RemoveAt(index);
+        }
 
         public List<string> Print()
         {
