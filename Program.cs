@@ -1,4 +1,4 @@
-﻿namespace AudioDirLab
+﻿namespace AudioDirCore
 {
     internal class Program
     {

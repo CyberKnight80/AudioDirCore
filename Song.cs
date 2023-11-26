@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AudioDirLab
+namespace AudioDirCore
 {
     /// <summary>
     /// Class that uses Audio to create Song (like Radiohead - No surprises)
