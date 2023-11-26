@@ -9,7 +9,15 @@
             AudioBook audiobook = new AudioBook("1984", 35438, 1612818000, "George Orwell", "Novel", 18);
             List<Audio> mylibrary = new List<Audio> { song, podcast, audiobook };
 
-            song.About(); podcast.About(); audiobook.About();
+            foreach (Audio a in mylibrary) { a.About(); };
+
+            Console.WriteLine("\nSaving data . . .\n");
+
+            Loader.SaveObjects("spotify.txt", mylibrary);
+            List<Audio> mylibrary_saved = Loader.LoadObjects("spotify.txt");
+
+            foreach (Audio a in mylibrary_saved) { a.About(); };
+
         }
     }
 }
