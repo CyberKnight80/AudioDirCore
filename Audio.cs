@@ -82,25 +82,28 @@ namespace AudioDirLab
         /// </summary>
         /// <param name="title">Any audio title</param>
         /// <param name="duration">Any audio duration (seconds)</param>
-        /// <param name="unixreleasedate">Any audio release date in unix</param>
-        public Audio(string title, int duration, long unixreleasedate)
+        /// <param name="unixReleaseDate">Any audio release date in unix</param>
+        public Audio(string title, int duration, long unixReleaseDate)
         {
             this.Title = title;
             this.Duration = duration;
-            this.ReleasedUnix = unixreleasedate;
+            this.ReleasedUnix = unixReleaseDate;
         }
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Console WriteLine Data about object
+        /// </summary>
+        /// <param name="Type"></param>
         public virtual void About(string Type = "Audio")
         {
             Console.WriteLine($"\nAudio::{Type} Data");
-            Console.WriteLine($"{Type} Title: {this.Title}");
-            Console.WriteLine($"{Type} Duration: {this.Duration}");
-            Console.WriteLine($"{Type} Release Time (Unix): {this.ReleasedUnix}");
-            Console.WriteLine("wq!");
+            Console.WriteLine($"{Type} title: {this.Title}");
+            Console.WriteLine($"{Type} duration: {this.Duration}s");
+            Console.WriteLine($"{Type} release time (unix): {this.ReleasedUnix}");
         }
 
         #endregion

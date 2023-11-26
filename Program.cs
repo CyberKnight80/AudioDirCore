@@ -4,7 +4,8 @@
     {
         static void Main(string[] args)
         {
-            //Audio audio = new Audio("No surprises", 228, 852066000);
+            Song song = new Song("No surprises", 228, 852066000, "OK COMPUTER", "Radiohead");
+            song.About();
         }
     }
 }
