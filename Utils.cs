@@ -354,9 +354,21 @@ namespace AudioDirCore
             this._list.Add(obj);
         }
 
+        public void AddRange(IEnumerable<Audio> val)
+        {
+            foreach (Audio val1 in val)
+            {
+                _list.Add(val1);
+            }
+        }
+
         public void RemoveAt(int index)
         {
             this._list.RemoveAt(index);
+        }
+        public void Clear()
+        {
+            _list.Clear();
         }
 
         public List<string> Print()
