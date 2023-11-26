@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -102,7 +103,7 @@ namespace AudioDirLab
             string ErrorMessage = $"ERROR: File  \"{filename}\" not found. Exiting...";
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(ErrorMessage);
-            
+
             Logger.Log(ErrorMessage);
             Environment.Exit(1);
         }
@@ -257,15 +258,16 @@ namespace AudioDirLab
 
     #endregion
 
+    #region Comparators
+
     public interface IUniversal
     {
-        public string[] Print();
+        public List<String> Print();
 
         public void SortInt();
 
         public void SortString();
 
-        public void Randomize();
     }
     public class StringComparator : IComparer<Audio>
     {
@@ -295,4 +297,115 @@ namespace AudioDirLab
             return x!.Duration.CompareTo(y.Duration);
         }
     }
+
+    #endregion
+
+    #region AudioList
+
+    public class AudioList : IEnumerable<Audio>, IUniversal
+    {
+        private List<Audio> _list;
+
+        #region Constructors
+
+        public AudioList()
+        {
+            this._list = new List<Audio>();
+        }
+
+        public AudioList(IEnumerable<Audio> enums)
+        {
+            this._list = new List<Audio>();
+
+            foreach (Audio val in enums)
+            {
+                this._list.Add(val);
+            }
+        }
+
+        public AudioList(Int32 val)
+        {
+            this._list = new List<Audio>(val);
+        }
+
+        #endregion
+
+        #region Properties
+
+        public int Count
+        {
+            get { return this._list.Count; }
+            set { }
+        }
+
+        public Audio this[int index]
+        {
+            get { return _list[index]; }
+            set { _list[index] = value; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public List<string> Print()
+        {
+            List<String> s = new List<String>();
+
+
+            foreach (Audio val in this._list)
+            {
+                s.Add(val.ToString()!);
+            }
+
+            return s;
+        }
+
+        public void Sort()
+        {
+            _list.Sort();
+        }
+
+        public void Sort(Comparison<Audio> comparison)
+        {
+            _list.Sort(comparison);
+        }
+
+        public void Sort(System.Collections.Generic.IComparer<Audio>? comparer)
+        {
+            _list.Sort(comparer);
+        }
+
+        public void Sort(int index, int count, System.Collections.Generic.IComparer<Audio>? comparer)
+        {
+            _list.Sort(index, count, comparer);
+        }
+
+        public void SortInt()
+        {
+            IComparer<Audio> comparer = new IntComparator();
+            _list.Sort(comparer);
+        }
+
+        public void SortString()
+        {
+            IComparer<Audio> comparer = new StringComparator();
+            _list.Sort(comparer);
+        }
+
+        IEnumerator<Audio> IEnumerable<Audio>.GetEnumerator()
+        {
+            return _list.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _list.GetEnumerator();
+        }
+
+        #endregion
+    }
+
+    #endregion
+
 }
