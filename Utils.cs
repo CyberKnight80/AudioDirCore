@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace AudioDirLab
 {
+
+    #region Loader
+
     public class Loader
     {
 
@@ -30,7 +33,7 @@ namespace AudioDirLab
                 case "AudioBook":
                     return new AudioBook(args[1], int.Parse(args[2]), int.Parse(args[3]), args[4], args[5], int.Parse(args[6]));
                 default:
-                    throw new ArgumentException("Invalid saved data");
+                    throw new InvalidSavedData(StringObject);
             }
         }
 
@@ -62,7 +65,7 @@ namespace AudioDirLab
         public static List<Audio> LoadObjects(string filename)
         {
             if (!File.Exists(filename))
-                throw new ArgumentException($" file not found error: {filename}"); // FileNotFoundError
+                throw new FileNotFoundError(filename);
 
             List<Audio> objects = new List<Audio>();
             using (StreamReader sr = new StreamReader(filename))
@@ -79,4 +82,70 @@ namespace AudioDirLab
         #endregion
 
     }
+
+    #endregion
+
+    #region Custom Exceptions
+
+    /// <summary>
+    /// The exception thrown when there is a file missing error
+    /// </summary>
+    public class FileNotFoundError : Exception
+    {
+        /// <summary>
+        /// Creates a new instance of the FileNotFoundError class specifying the file name
+        /// </summary>
+        /// <param name="filename">The name of the file that was not found<param>
+        public FileNotFoundError(string filename) : base(filename)
+        {
+            string ErrorMessage = $"ERROR: File  \"{filename}\" not found. Exiting...";
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(ErrorMessage);
+
+            Environment.Exit(1);
+        }
+    }
+
+    /// <summary>
+    /// The exception thrown when the upperand value is incorrect
+    /// </summary>
+    public class InvalidValueError : Exception
+    {
+        /// <summary>
+        /// Creates a new instance of the InvalidValueError class specifying the upperand, value, and error message
+        /// </summary>
+        /// <param name="apperand">An upperand that is set to an incorrect value</param>
+        /// <param name="value">Incorrect upperand value</param>
+        /// <param name="message">Error message</param>
+        public InvalidValueError(string apperand, string value, string message) : base(message)
+        {
+            string ErrorMessage = $"WARNING: Apperand {apperand} cannot be set to {value}: {message}";
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(ErrorMessage);
+
+            Console.ResetColor();
+        }
+    }
+
+    /// <summary>
+    /// The exception thrown when there is a broken saved data in file
+    /// </summary>
+    public class InvalidSavedData : Exception
+    {
+        /// <summary>
+        /// Creates a new instance of the InvalidSavedData class
+        /// </summary>
+        /// <param name="data">The invalid data<param>
+        public InvalidSavedData(string data) : base(data)
+        {
+            string ErrorMessage = $"ERROR: Invaild data: {data}. Exiting...";
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(ErrorMessage);
+
+            Environment.Exit(1);
+
+        }
+    }
+
+    #endregion 
 }

@@ -38,7 +38,7 @@ namespace AudioDirLab
             get { return this.__author; }
             set
             {
-                if (string.IsNullOrEmpty(value)) Console.WriteLine("Invalid author title");
+                if (string.IsNullOrEmpty(value)) new InvalidValueError("AuthorTitle", value, "null or empty");
                 else this.__author = value;
             }
         }
@@ -51,7 +51,7 @@ namespace AudioDirLab
             get { return this.__season; }
             set
             {
-                if (value <= 0) Console.WriteLine("Invalid season");
+                if (value <= 0) new InvalidValueError("Season", value.ToString(), "bellow or asserts zero");
                 else this.__season = value;
             }
         }
@@ -64,7 +64,7 @@ namespace AudioDirLab
             get { return this.__episode; }
             set
             {
-                if (value <= 0) Console.WriteLine("Invalid episode");
+                if (value <= 0) new InvalidValueError("Episode", value.ToString(), "bellow or asserts zero");
                 else this.__episode = value;
             }
         }

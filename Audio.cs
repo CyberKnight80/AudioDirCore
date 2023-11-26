@@ -42,7 +42,7 @@ namespace AudioDirLab
             get { return this.__title;  }
             set
             {
-                if (string.IsNullOrEmpty(value)) Console.WriteLine("Invalid title");
+                if (string.IsNullOrEmpty(value)) new InvalidValueError("Title", value, "null or empty");
                 else this.__title = value;
             }
         }
@@ -55,7 +55,7 @@ namespace AudioDirLab
             get { return this.__duration; }
             set
             {
-                if (value <= 0) Console.WriteLine("Invalid duration");
+                if (value <= 0) new InvalidValueError("Duration", value.ToString(), "bellow or asserts zero");
                 else this.__duration = value;
             }
         }
@@ -68,7 +68,7 @@ namespace AudioDirLab
             get { return this.__unixreleasedate; }
             set
             {
-                if (value <= 0) Console.WriteLine("Invalid release date");
+                if (value <= 0) new InvalidValueError("ReleasedUnix", value.ToString(), "bellow or asserts zero");
                 else this.__unixreleasedate = value;
             }
         }

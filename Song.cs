@@ -36,7 +36,7 @@ namespace AudioDirLab
             get { return this.__album; }
             set
             {
-                if (string.IsNullOrEmpty(value)) Console.WriteLine("Invalid album title");
+                if (string.IsNullOrEmpty(value)) new InvalidValueError("AlbumTitle", value, "null or empty");
                 else this.__album = value;
             }
         }
@@ -49,7 +49,7 @@ namespace AudioDirLab
             get { return this.__artist; }
             set
             {
-                if (string.IsNullOrEmpty(value)) Console.WriteLine("Invalid artist title");
+                if (string.IsNullOrEmpty(value)) new InvalidValueError("ArtistTitle", value, "null or empty");
                 else this.__artist = value;
             }
         }

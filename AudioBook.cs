@@ -37,7 +37,7 @@ namespace AudioDirLab
             get { return this.__author; }
             set
             {
-                if (string.IsNullOrEmpty(value)) Console.WriteLine("Invalid author title");
+                if (string.IsNullOrEmpty(value)) new InvalidValueError("AuthorTitle", value, "null or empty");
                 else this.__author = value;
             }
         }
@@ -50,7 +50,7 @@ namespace AudioDirLab
             get { return this.__genre; }
             set
             {
-                if (string.IsNullOrEmpty(value)) Console.WriteLine("Invalid genre");
+                if (string.IsNullOrEmpty(value)) new InvalidValueError("Genre", value, "null or empty");
                 else this.__genre = value;
             }
         }
@@ -63,7 +63,7 @@ namespace AudioDirLab
             get { return this.__agelimit ; }
             set
             {
-                if (value <= 0) Console.WriteLine("Invalid age limit");
+                if (value <= 0) new InvalidValueError("AgeLimit", value.ToString(), "bellow or asserts zero");
                 else this.__agelimit = value;
             }
         }
