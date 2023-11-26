@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -256,4 +257,42 @@ namespace AudioDirLab
 
     #endregion
 
+    public interface IUniversal
+    {
+        public string[] Print();
+
+        public void SortInt();
+
+        public void SortString();
+
+        public void Randomize();
+    }
+    public class StringComparator : IComparer<Audio>
+    {
+        int IComparer<Audio>.Compare(Audio? x, Audio y)
+        {
+            return x!.Title.CompareTo(y.Title);
+        }
+    }
+    public interface ICompareAudio : IComparer<Audio>
+    {
+        int IComparer<Audio>.Compare(Audio? a, Audio? b)
+        {
+            if (a is not null && b is not null)
+            {
+                if (a.Duration > b.Duration) return 1;
+                if (a.Duration < b.Duration) return -1;
+            }
+
+            return 0;
+        }
+    }
+
+    public class IntComparator : IComparer<Audio>
+    {
+        int IComparer<Audio>.Compare(Audio? x, Audio y)
+        {
+            return x!.Duration.CompareTo(y.Duration);
+        }
+    }
 }

@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace AudioDirLab
 {
     /// <summary>
     /// Abstract class that creates any audio object
     /// </summary>
-    public abstract class Audio
+    public abstract class Audio : ICompareAudio, IComparable<Audio>, IEquatable<Audio>
     {
 
         #region Fields
@@ -105,6 +107,65 @@ namespace AudioDirLab
             Console.WriteLine($"{Type} duration: {this.Duration}s");
             Console.WriteLine($"{Type} release time (unix): {this.ReleasedUnix}");
         }
+
+        #endregion
+
+
+        #region Operators
+        public static bool operator ==(Audio left, Audio right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Audio left, Audio right)
+        {
+            return !left.Equals(right);
+        }
+
+        public static bool operator >(Audio left, Audio right)
+        {
+            if (left.Duration > right.Duration) return true;
+            return false;
+        }
+
+        public static bool operator <(Audio left, Audio right)
+        {
+            if (left.Duration < right.Duration) return true;
+            return false;
+        }
+
+        public static bool operator >=(Audio left, Audio right)
+        {
+            if (left.Duration >= right.Duration) return true;
+            return false;
+        }
+
+        public static bool operator <=(Audio left, Audio right)
+        {
+            if (left.Duration <= right.Duration) return true;
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Title.GetHashCode();
+        }
+
+        public bool Equals(Audio? obj)
+        {
+            if (obj is null) return false;
+
+            Audio other = obj as Audio;
+
+            return this.Duration.Equals(other.Duration) && this.Title.Equals(other.Title) &&
+            this.ReleasedUnix.Equals(other.ReleasedUnix);
+        }
+
+        public int CompareTo(Audio? other)
+        {
+            return this.Duration.CompareTo(other!.Duration);
+        }
+
 
         #endregion
     }
