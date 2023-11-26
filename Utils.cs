@@ -101,7 +101,8 @@ namespace AudioDirLab
             string ErrorMessage = $"ERROR: File  \"{filename}\" not found. Exiting...";
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(ErrorMessage);
-
+            
+            Logger.Log(ErrorMessage);
             Environment.Exit(1);
         }
     }
@@ -123,6 +124,7 @@ namespace AudioDirLab
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(ErrorMessage);
 
+            Logger.Log(ErrorMessage);
             Console.ResetColor();
         }
     }
@@ -142,10 +144,116 @@ namespace AudioDirLab
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(ErrorMessage);
 
+            Logger.Log(ErrorMessage);
             Environment.Exit(1);
 
         }
     }
 
-    #endregion 
+    #endregion
+
+    #region Logger Class
+
+    /// <summary>
+    /// The Logger class is designed to log messages and display information about program startup.
+    /// </summary>
+    public class Logger
+    {
+        #region Singleton Implementation
+
+        // Static variable for singleton implementation
+        private static Logger instance;
+
+        // Object to block the thread when creating a singleton
+        private static object lockObject = new object();
+
+        #endregion
+
+        #region Constants and Fields
+
+        // Directory for storing logs
+        private const string LoggerFolder = "logs";
+
+        // Timestamp format for log file name
+        public static string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
+
+        // Current log file name
+        public static string logFileName = $"{LoggerFolder}\\{timestamp}.log";
+
+        #endregion
+
+        #region Constructor and Initialization
+
+        /// <summary>
+        /// The static constructor of the Logger class performs initialization, creating a log folder and starting writing to a new log file.
+        /// </summary>
+        static Logger()
+        {
+            if (!Directory.Exists(LoggerFolder)) { Directory.CreateDirectory(LoggerFolder); }
+
+            // Creating a new log file with the current timestamp
+            using (File.Create(logFileName)) { };
+
+            // Logging information about program launch
+            Log("AudioDirLab loaded. Logger created");
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Get an instance of the Logger class. Singleton implementation.
+        /// </summary>
+        public static Logger Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (lockObject)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new Logger();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+
+        #endregion
+
+        #region Logging Methods
+
+        /// <summary>
+        /// Writes a message to the current log file.
+        /// </summary>
+        /// <param name="message">Logging message</param>
+        public static void Log(string message)
+        {
+            try
+            {
+                // Open the log file to add an entry
+                using (StreamWriter writer = File.AppendText(logFileName))
+                {
+                    // Write the timestamp and message to the log
+                    writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {message}");
+                }
+            }
+            catch (IOException e)
+            {
+                // Handling a log entry error
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"The log cannot be written: {e.Message}");
+                Environment.Exit(1);
+            }
+        }
+
+        #endregion
+    }
+
+    #endregion
+
 }
