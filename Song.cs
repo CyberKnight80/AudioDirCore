@@ -17,12 +17,12 @@ namespace AudioDirLab
         /// <summary>
         /// Song Album Title (like OK COMPUTER)
         /// </summary>
-        protected string __album = "Untitled Album";
+        protected string __album = "Untitled album";
 
         /// <summary>
         /// Song Artist(Group) (like Radiohead)
         /// </summary>
-        protected string __artist = "Untitled Artist";
+        protected string __artist = "Untitled artist";
 
         #endregion
 
@@ -49,7 +49,7 @@ namespace AudioDirLab
             get { return this.__artist; }
             set
             {
-                if (string.IsNullOrEmpty(value)) Console.WriteLine("Invalid album title");
+                if (string.IsNullOrEmpty(value)) Console.WriteLine("Invalid artist title");
                 else this.__artist = value;
             }
         }
@@ -63,7 +63,7 @@ namespace AudioDirLab
         /// </summary>
         /// <param name="albumTitle">Album title</param>
         /// <param name="artistTitle">Artist title</param>
-        public Song(string title, int duration, int unixReleaseDate, string albumTitle, string artistTitle) : base(title, duration, unixReleaseDate)
+        public Song(string title, int duration, long unixReleaseDate, string albumTitle, string artistTitle) : base(title, duration, unixReleaseDate)
         {
             this.AlbumTitle = albumTitle;
             this.ArtistTitle = artistTitle;
@@ -78,7 +78,7 @@ namespace AudioDirLab
             base.About(Type);
             Console.WriteLine($"{Type} album title: {this.AlbumTitle}");
             Console.WriteLine($"{Type} artist title: {this.ArtistTitle}");
-            Console.WriteLine("wq!");
+            Console.WriteLine("w!");
         }
 
         public override string ToString()
