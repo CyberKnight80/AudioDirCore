@@ -371,6 +371,15 @@ namespace AudioDirCore
             _list.Clear();
         }
 
+        public AudioList FindAll(Predicate<Audio> predicate)
+        {
+            AudioList findList = new AudioList();
+
+            findList._list = _list.FindAll(predicate);
+
+            return findList;
+        }
+
         public List<string> Print()
         {
             List<String> s = new List<String>();
