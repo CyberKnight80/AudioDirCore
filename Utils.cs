@@ -269,6 +269,8 @@ namespace AudioDirCore
 
         public void SortString();
 
+        public void Randomize();
+
     }
     public class StringComparator : IComparer<Audio>
     {
@@ -433,6 +435,45 @@ namespace AudioDirCore
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();
+        }
+
+        public static string RandomString(int length)
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public Audio CreateRandomAudio()
+        {
+            Random rnd = new Random();
+            int object_type = rnd.Next(3);
+            int random_title_length = rnd.Next(10);
+            int random_duration = rnd.Next(99999);
+            long random_release_date_unix = rnd.Next(999999999);
+            switch (object_type)
+            {
+                case 0:
+                    return new Song(RandomString(random_title_length), random_duration, random_release_date_unix, RandomString(random_title_length), RandomString(random_title_length));
+                case 1:
+                    return new Podcast(RandomString(random_title_length), random_duration, random_release_date_unix, RandomString(random_title_length), rnd.Next(10), rnd.Next(10));
+                case 2:
+                    return new AudioBook(RandomString(random_title_length), random_duration, random_release_date_unix, RandomString(random_title_length), RandomString(random_title_length), rnd.Next(10));
+                default:
+                    return new Song(RandomString(random_title_length), random_duration, random_release_date_unix, RandomString(random_title_length), RandomString(random_title_length));
+            }
+
+        }
+
+        // палет это просто пиздец.
+        public void Randomize(int count = 3)
+        {
+            _list.Clear();
+            for (int i = 0; i < count; i++)
+            {
+                _list.Add(CreateRandomAudio());
+            }
         }
 
         #endregion
