@@ -165,7 +165,7 @@ namespace AudioDirCore
         #region Singleton Implementation
 
         // Static variable for singleton implementation
-        private static Logger instance;
+        private static Logger instance = null!;
 
         // Object to block the thread when creating a singleton
         private static object lockObject = new object();
@@ -263,7 +263,7 @@ namespace AudioDirCore
 
     public interface IUniversal
     {
-        public List<String> Print();
+        public string[] Print();
 
         public void SortInt();
 
@@ -274,9 +274,9 @@ namespace AudioDirCore
     }
     public class StringComparator : IComparer<Audio>
     {
-        int IComparer<Audio>.Compare(Audio? x, Audio y)
+        int IComparer<Audio>.Compare(Audio? x, Audio? y)
         {
-            return x!.Title.CompareTo(y.Title);
+            return x!.Title.CompareTo(y!.Title);
         }
     }
     public interface ICompareAudio : IComparer<Audio>
@@ -295,9 +295,9 @@ namespace AudioDirCore
 
     public class IntComparator : IComparer<Audio>
     {
-        int IComparer<Audio>.Compare(Audio? x, Audio y)
+        int IComparer<Audio>.Compare(Audio? x, Audio? y)
         {
-            return x!.Duration.CompareTo(y.Duration);
+            return x!.Duration.CompareTo(y!.Duration);
         }
     }
 
@@ -306,7 +306,7 @@ namespace AudioDirCore
     #region AudioList
 
     public class AudioList : IEnumerable<Audio>, IUniversal
-    {
+    {   
         private List<Audio> _list;
 
         #region Constructors
@@ -382,17 +382,16 @@ namespace AudioDirCore
             return findList;
         }
 
-        public List<string> Print()
+        public string[] Print()
         {
-            List<String> s = new List<String>();
-
-
-            foreach (Audio val in this._list)
+            string[] strings = new string[this._list.Count];
+            
+            for (int i = 0; i < this._list.Count; i++)
             {
-                s.Add(val.ToString()!);
+                strings[i] = this._list[i].ToString()!;
             }
 
-            return s;
+            return strings;
         }
 
         public void Sort()
@@ -442,16 +441,16 @@ namespace AudioDirCore
             Random random = new Random();
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
+                .Select(s => s[random.Next(1, s.Length)]).ToArray());
         }
 
         public Audio CreateRandomAudio()
         {
             Random rnd = new Random();
             int object_type = rnd.Next(3);
-            int random_title_length = rnd.Next(10);
-            int random_duration = rnd.Next(99999);
-            long random_release_date_unix = rnd.Next(999999999);
+            int random_title_length = rnd.Next(1,10);
+            int random_duration = rnd.Next(1,99999);
+            long random_release_date_unix = rnd.Next(1, 999999999);
             switch (object_type)
             {
                 case 0:
@@ -466,16 +465,27 @@ namespace AudioDirCore
 
         }
 
-        // палет это просто пиздец.
-        public void Randomize(int count = 3)
+        public void Randomize()
         {
             _list.Clear();
+            int count = 3;
             for (int i = 0; i < count; i++)
             {
                 _list.Add(CreateRandomAudio());
             }
         }
 
+        public override string? ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var item in _list)
+            {
+                sb.Append(item + " ");
+            }
+
+            return sb.ToString();
+        }
         #endregion
     }
 

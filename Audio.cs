@@ -12,7 +12,7 @@ namespace AudioDirCore
     /// <summary>
     /// Abstract class that creates any audio object
     /// </summary>
-    public abstract class Audio : ICompareAudio, IComparable<Audio>, IEquatable<Audio>
+    public abstract class Audio : ICompareAudio, IComparable<Audio>//, IEquatable<Audio>
     {
 
         #region Fields
@@ -151,11 +151,11 @@ namespace AudioDirCore
             return this.Title.GetHashCode();
         }
 
-        public bool Equals(Audio? obj)
+        public override bool Equals(object? obj)
         {
             if (obj is null) return false;
 
-            Audio other = obj as Audio;
+            Audio other = (obj as Audio)!;
 
             return this.Duration.Equals(other.Duration) && this.Title.Equals(other.Title) &&
             this.ReleasedUnix.Equals(other.ReleasedUnix);

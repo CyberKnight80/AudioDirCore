@@ -19,6 +19,10 @@
             //List<Audio> mylibrary_saved = Loader.LoadObjects("spotify.txt");
 
             //foreach (Audio a in mylibrary_saved) { a.About(); };
+            //AudioList audioList = new AudioList();
+            //audioList.Randomize();
+            //string[] data = audioList.Print();
+            //foreach (string d in data) Console.WriteLine(d);
 
         }
     }
